@@ -13,8 +13,9 @@ module.exports = class extends Command {
     }
 
     async run(message, args) {
-        let start = Date.now();
-        let diff = (Date.now() - start);
-        message.channel.send(`Pong! \`${diff}ms\``);
+        const msg = await message.channel.send("Pinging...");
+        const latency = msg.createdTimestamp - message.createdTimestamp;
+
+        msg.edit(`Bot Latency: \`${latency}ms\``);
     }
-}
+};

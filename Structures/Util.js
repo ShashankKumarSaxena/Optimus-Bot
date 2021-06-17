@@ -1,8 +1,8 @@
-const path = require("path");
-const { promisify } = require("util");
-const glob = promisify(require("glob"));
-const Command = require("./Command.js");
-const Event = require("./Event.js");
+const path = require('path');
+const { promisify } = require('util');
+const glob = promisify(require('glob'));
+const Command = require('./Command.js');
+const Event = require('./Event.js');
 
 module.exports = class Util {
   constructor(bot) {
@@ -11,9 +11,9 @@ module.exports = class Util {
 
   isClass(input) {
     return (
-      typeof input == "function" &&
-      typeof input.prototype == "object" &&
-      input.toString().substring(0, 5) === "class"
+      typeof input == 'function' &&
+      typeof input.prototype == 'object' &&
+      input.toString().substring(0, 5) === 'class'
     );
   }
 
@@ -22,7 +22,7 @@ module.exports = class Util {
   }
 
   async loadCommands() {
-    return glob(`${this.directory}Commands/**/*.js`).then((commands) => {
+    return glob(`${this.directory}Commands/**/*.js`).then(commands => {
       for (const commandFile of commands) {
         delete require.cache[commandFile];
         const { name } = path.parse(commandFile);
@@ -45,7 +45,7 @@ module.exports = class Util {
   }
 
   async loadEvents() {
-    return glob(`${this.directory}events/**/*.js`).then((events) => {
+    return glob(`${this.directory}events/**/*.js`).then(events => {
       for (const eventFile of events) {
         delete require.cache[eventFile];
         const { name } = path.parse(eventFile);
@@ -58,9 +58,8 @@ module.exports = class Util {
         if (!(event instanceof Event))
           throw new TypeError(`Event ${name} doesn't belongs to events!`);
         this.bot.events.set(event.name, event);
-				event.emitter[event.type](name, (...args) => event.run(...args));
+        event.emitter[event.type](name, (...args) => event.run(...args));
       }
     });
   }
-
 };

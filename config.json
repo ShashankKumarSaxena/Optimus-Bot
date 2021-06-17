@@ -1,6 +1,6 @@
 {
-    "prefix": "!",
-    "token": "TOKEN HERE",
-    "userPerms": [],
-    "botPerms": []
+  "prefix": "!",
+  "token": "TOKEN HERE",
+  "userPerms": [],
+  "botPerms": []
 }

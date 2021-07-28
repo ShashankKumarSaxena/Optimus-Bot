@@ -1,3 +1,3 @@
-module moderation.go
+module src/moderation
 
 go 1.16

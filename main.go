@@ -6,11 +6,14 @@ import (
 	"os/signal"
 	"syscall"
 
+	"src/moderation"
+	"strings"
+
 	"github.com/bwmarrin/discordgo"
 	// "github.com/bwmarrin/discordgo"
 )
 
-var Token string = "TOKEN HERE"
+var Token string = "ODU0MzQyMzg5NTQzODYyMjky.YMiiWg.SlmftQHQrQU7bxspXShUwyofDec"
 
 func main() {
 	dg, err := discordgo.New("Bot " + Token)
@@ -41,5 +44,18 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	// Called whrn message is create
 	if m.Content == "?ping" {
 		s.ChannelMessageSend(m.ChannelID, "Pong!")
+	}
+
+	// This is not the best way to handle commands though
+
+	// ******************** MODERATION *************************
+	if strings.Contains(m.Content, "?kick") {
+		moderation.KickMember(s, m)
+	}
+	if strings.Contains(m.Content, "?ban") {
+		moderation.BanMember(s, m)
+	}
+	if strings.Contains(m.Content, "?tempban") {
+		moderation.TempBanMember(s, m)
 	}
 }

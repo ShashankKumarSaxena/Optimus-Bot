@@ -13,7 +13,7 @@ import (
 	// "github.com/bwmarrin/discordgo"
 )
 
-var Token string = "ODU0MzQyMzg5NTQzODYyMjky.YMiiWg.SlmftQHQrQU7bxspXShUwyofDec"
+var Token string = "TOKEN HERE"
 
 func main() {
 	dg, err := discordgo.New("Bot " + Token)

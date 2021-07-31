@@ -14,7 +14,7 @@ import (
 	// "github.com/bwmarrin/discordgo"
 )
 
-var Token string = "ODU0MzQyMzg5NTQzODYyMjky.YMiiWg.D9M9TeHqixep475kdyY6dDwkrfA"
+var Token string = "TOKEN :_:"
 
 func main() {
 	dg, err := discordgo.New("Bot " + Token)

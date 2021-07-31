@@ -8,12 +8,13 @@ import (
 
 	"src/moderation"
 	"strings"
+	"src/fun"
 
 	"github.com/bwmarrin/discordgo"
 	// "github.com/bwmarrin/discordgo"
 )
 
-var Token string = "TOKEN HERE"
+var Token string = "ODU0MzQyMzg5NTQzODYyMjky.YMiiWg.D9M9TeHqixep475kdyY6dDwkrfA"
 
 func main() {
 	dg, err := discordgo.New("Bot " + Token)
@@ -24,7 +25,11 @@ func main() {
 
 	dg.AddHandler(messageCreate)
 
-	dg.Identify.Intents = discordgo.IntentsGuildMessages
+	dg.Identify.Intents = discordgo.IntentsGuilds | discordgo.IntentsGuildMessages | discordgo.IntentsGuildVoiceStates
+	err = fun.LoadSound()
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	err = dg.Open()
 	if err != nil {
@@ -57,5 +62,29 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	if strings.Contains(m.Content, "?tempban") {
 		moderation.TempBanMember(s, m)
+	}
+	if strings.Contains(m.Content, "?airhorn") {
+		c, err := s.State.Channel(m.ChannelID)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		g, err := s.State.Guild(c.GuildID)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		for _, vs := range g.VoiceStates {
+			if vs.UserID == m.Author.ID {
+				err = fun.PlaySound(s, g.ID, vs.ChannelID)
+				if err != nil {
+					fmt.Println("Error playing sound")
+				}
+
+				return
+			}
+		}
 	}
 }
